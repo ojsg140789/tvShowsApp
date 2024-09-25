@@ -7,6 +7,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatCardModule } from '@angular/material/card';
+import Swal from 'sweetalert2';
 
 @Component({
   standalone: true,
@@ -44,10 +45,12 @@ export class TvShowFormComponent implements OnInit {
   save(): void {
     if (this.tvShowId) {
       this.tvShowService.updateTvShow({ ...this.tvShowForm.value, id: this.tvShowId }).subscribe(() => {
+        Swal.fire('¡Actualización exitosa!', 'El show fue actualizado correctamente', 'success');
         this.router.navigate(['/']);
       });
     } else {
       this.tvShowService.createTvShow(this.tvShowForm.value).subscribe(() => {
+        Swal.fire('¡Creación exitosa!', 'El show fue creado correctamente', 'success');
         this.router.navigate(['/']);
       });
     }

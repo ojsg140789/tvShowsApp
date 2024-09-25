@@ -6,6 +6,8 @@ import { MatButtonModule } from '@angular/material/button';
 import { TvshowService } from 'src/app/services/tvshow.service';
 import { TvShow } from 'src/app/models/tvshow';
 
+import Swal from 'sweetalert2';
+
 @Component({
   selector: 'app-home',
   standalone: true,
@@ -30,8 +32,20 @@ export class HomeComponent implements OnInit  {
   }
 
   deleteTvShow(id: number): void {
-    this.tvshowService.deleteTvShow(id).subscribe(() => {
-      this.loadTvShows();
+    Swal.fire({
+      title: '¿Estás seguro?',
+      text: 'No podrás revertir esta acción',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'Sí, eliminarlo',
+      cancelButtonText: 'No, cancelar'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.tvshowService.deleteTvShow(id).subscribe(() => {
+          Swal.fire('¡Eliminado!', 'El show ha sido eliminado.', 'success');
+          this.loadTvShows();
+        });
+      }
     });
   }
 }
