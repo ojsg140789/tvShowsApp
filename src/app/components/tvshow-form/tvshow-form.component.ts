@@ -36,22 +36,42 @@ export class TvShowFormComponent implements OnInit {
     this.tvShowId = Number(this.route.snapshot.paramMap.get('id'));
 
     if (this.tvShowId) {
-      this.tvShowService.getTvShowById(this.tvShowId).subscribe(data => {
-        this.tvShowForm.patchValue(data);
+      this.tvShowService.getTvShowById(this.tvShowId).subscribe({
+        next: (tvShow) => {
+          if (tvShow) {
+            this.tvShowForm.patchValue(tvShow);
+          }
+        },
+        error: (err) => {
+          Swal.fire('Error', 'No se pudo cargar el show.', 'error');
+          console.error('Error al obtener el show:', err);
+        }
       });
     }
   }
 
   save(): void {
     if (this.tvShowId) {
-      this.tvShowService.updateTvShow({ ...this.tvShowForm.value, id: this.tvShowId }).subscribe(() => {
-        Swal.fire('¡Actualización exitosa!', 'El show fue actualizado correctamente', 'success');
-        this.router.navigate(['/']);
+      this.tvShowService.updateTvShow({ ...this.tvShowForm.value, id: this.tvShowId }).subscribe({
+        next: () => {
+          Swal.fire('¡Actualización exitosa!', 'El show fue actualizado correctamente', 'success');
+          this.router.navigate(['/']);
+        },
+        error: (err) => {          
+          Swal.fire('Error', 'No se pudo actualizar el show.', 'error');
+          console.error('Error al actualizar el show:', err);
+        }
       });
     } else {
-      this.tvShowService.createTvShow(this.tvShowForm.value).subscribe(() => {
-        Swal.fire('¡Creación exitosa!', 'El show fue creado correctamente', 'success');
-        this.router.navigate(['/']);
+      this.tvShowService.createTvShow(this.tvShowForm.value).subscribe({
+        next: () => {
+          Swal.fire('¡Creación exitosa!', 'El show fue creado correctamente', 'success');
+          this.router.navigate(['/']);
+        },
+        error: (err) => {
+          Swal.fire('Error', 'No se pudo crear el show.', 'error');
+          console.error('Error al crear el show:', err);
+        }
       });
     }
   }

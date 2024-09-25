@@ -26,8 +26,15 @@ export class HomeComponent implements OnInit  {
   }
 
   loadTvShows(): void {
-    this.tvshowService.getAllTvShows().subscribe(data => {
-      this.tvShows = data;
+    this.tvshowService.getAllTvShows().subscribe(
+    {
+      next: (data) => {
+        this.tvShows = data;
+      },
+      error: (err) => {
+        Swal.fire('Error', 'No se pudieron cargar los shows.', 'error');
+        console.error('Error al cargar los shows el show:', err);
+      }
     });
   }
 
