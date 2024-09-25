@@ -1,0 +1,17 @@
+.container {
+    margin: 10px;
+    text-align: -webkit-center;
+}
+
+.form-card {
+    width: 50%;
+}
+
+.card-header {
+    margin: 10px 10px 20px 10px;
+    align-self: center;
+}
+
+.action-save {
+    margin: 10px;
+}

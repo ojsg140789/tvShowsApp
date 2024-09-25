@@ -1,0 +1,27 @@
+<div class="container">
+    <mat-card class="form-card">
+        <mat-card-header class="card-header">
+            <mat-card-title>{{ tvShowId ? 'Editar' : 'Crear' }} Programa de TVButtons</mat-card-title>
+        </mat-card-header>
+        <mat-card-content align="center">
+            <form [formGroup]="tvShowForm" (ngSubmit)="save()">
+                <mat-form-field>
+                    <mat-label>Nombre</mat-label>
+                    <input matInput formControlName="name">
+                    <mat-error *ngIf="f['name'].errors?.['required']">El nombre es requerido</mat-error>
+                </mat-form-field>
+                <div>
+                    <mat-checkbox formControlName="favorite">Favorito</mat-checkbox>
+                </div>
+                <div class="action-save">
+                    <button mat-raised-button color="primary" type="submit"
+                     [disabled]="tvShowForm.invalid">Guardar</button>
+                </div>
+                <div>
+                    <button mat-raised-button color="secondary" type="button"
+                     (click)="cancel()">Cancelar</button>
+                </div>
+            </form>
+        </mat-card-content>
+    </mat-card>
+</div>
